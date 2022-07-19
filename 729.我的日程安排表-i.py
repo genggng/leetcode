@@ -26,6 +26,7 @@ from sortedcontainers import SortedDict
 class MyCalendar:
     """
     方法二：使用排序字典存储日程，能够保证排序结构，同时支持快速插入
+    排序字典会对主键进行排序
     使用二分查找合适的位置降低时间复杂度
     """
     def __init__(self):
@@ -35,9 +36,9 @@ class MyCalendar:
         # bisect_left是找到一个合适的位置插入使得原字典有序
         # all(val < end for val in a[lo:i]) 左侧的都小于end
         # all(val >= end for val in a[i:hi]) 右侧（包含i）的都大于等于end
-        i = self.tasks.bisect_left(end)  #寻找大于end的第一个节点 r1>=end
-        # if r2<=start <ennd <= r1 即可插入
-        if i==0 or self.tasks.items()[i-1][1] <=start:  #寻找前一个区间(l2,r2)，r2<=start
+        i = self.tasks.bisect_left(end)  #寻找大于end的第一个节点 end<=l2
+        # if r1<=start <end <= l1 即可插入
+        if i==0 or self.tasks.items()[i-1][1] <=start:  #寻找前一个区间(l1,r1)，r1<=start
             self.tasks[start] = end
             return True
         return False
