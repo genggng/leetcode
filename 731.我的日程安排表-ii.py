@@ -21,7 +21,7 @@ class MyCalendarTwo:
         # all(val < end for val in a[lo:i]) 左侧的都小于end
         # all(val >= end for val in a[i:hi]) 右侧（包含i）的都大于等于end
         i = self.tasks.bisect_left(end)  #寻找大于end的第一个节点 end<=l2
-        print(f"task{self.tasks.items()} add ({start,end}) find i={i}")
+        # print(f"task{self.tasks.items()} add ({start,end}) find i={i}")
         # 考虑不重叠情况，if r1<=start <ennd <= r2 ,即可插入
         if i==0 or self.tasks.items()[i-1][1] <=start:  #寻找前一个区间(l1,r1)，r1<=start
             self.tasks[start] = end
