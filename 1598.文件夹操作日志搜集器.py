@@ -7,25 +7,26 @@
 # @lc code=start
 class Solution:
     def minOperations(self, logs: List[str]) -> int:
-        # stack = []
-        # for log in logs:
-        #     print(log[:2])
-        #     if log[:2] == ".." and stack:
-        #         stack.pop()
-        #     elif log[:2] == "./":
-        #         continue
-        #     else:
-        #         stack.append(log)
-        # return len(stack)
-        depth = 0
+        stack = []
         for log in logs:
-            if log == "./":
+            if log == "../":
+                if stack:
+                    stack.pop()
+            elif log == "./":
                 continue
-            if log != "../":
-                depth += 1
-            elif depth:
-                depth -= 1
-        return depth
+            else:
+                print(log)
+                stack.append(log)
+        return len(stack)
+        # depth = 0
+        # for log in logs:
+        #     if log == "./":
+        #         continue
+        #     if log != "../":
+        #         depth += 1
+        #     elif depth:
+        #         depth -= 1
+        # return depth
 
 # @lc code=end
 
