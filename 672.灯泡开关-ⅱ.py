@@ -27,7 +27,7 @@ class Solution:
         for i in range(2**4): #四个开关的状态,共16种，可以用一个4位的二进制数表示。
             pressArr = [(i>>j)&1 for j in range(4)]  #四个按钮的情况，十进制提取二进制各位,一个pressArr代表一种准备做的按键策略
             if sum(pressArr) %2 == presses %2 and sum(pressArr) <= presses:  #如果预设按钮与真实次数奇偶性相同，并且真实的按键次数足够
-                status = pressArr[0] ^ pressArr[1] ^ pressArr[3]  #0号灯的状态
+                status = pressArr[0] ^ pressArr[2] ^ pressArr[3]  #0号灯的状态
                 if n>=2:
                     status |= (pressArr[0] ^ pressArr[1]) << 1  #1号灯的状态
                 if n>=3:
