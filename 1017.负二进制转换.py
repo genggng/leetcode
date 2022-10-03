@@ -20,6 +20,7 @@ class Solution:
         while max>0 and max<n:
             max = (max << 2) +1
         # res是刚好大于n的最大数，还要计算和n的差值
+        # 异或就是计算差值
         # print(max)
         return bin(max^max-n)[2:]
 
