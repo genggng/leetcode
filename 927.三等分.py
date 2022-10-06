@@ -5,6 +5,7 @@
 #
 
 # @lc code=start
+from ctypes import string_at
 from typing import List
 
 class Solution:
@@ -53,36 +54,39 @@ class Solution:
         # return [-1,-1]
             
         # 每一部分1的数量应该相同
-class Solution:
-    def threeEqualParts(self, arr: List[int]) -> List[int]:
-        s = sum(arr)
-        if s % 3:
-            return [-1, -1]
-        if s == 0:
-            return [0, 2]
-
-        partial = s // 3
-        first = second = third = cur = 0
-        for i, x in enumerate(arr):
+        count = arr.count(1)
+        if count % 3 :
+            return [-1,-1]
+        if count == 0:
+            return [0,2]
+        
+        num_one = count //3
+        #使用每部分1的数量，能够确定出i
+        cur = 0
+        start,mid,end = 0,0,0
+        # 确定三个1起始坐标
+        for i,x in enumerate(arr):
             if x:
                 if cur == 0:
-                    first = i
-                elif cur == partial:
-                    second = i
-                elif cur == 2 * partial:
-                    third = i
+                    start = i
+                if cur == num_one:
+                    mid = i
+                if cur == num_one*2:
+                    end = i
                 cur += 1
+        
+        valid_len = len(arr) - end  #因为第三段的结尾是确定的
+        if start + valid_len <= mid and mid+valid_len <= end: #确保在三部分内
+            # 比较三者三段是否相等
+            for k in range(valid_len):
+                if arr[start+k] != arr[mid+k] or arr[mid+k] != arr[end+k]:
+                    return [-1,-1]
+            return [start+valid_len-1,mid+valid_len]
+            
+        return [-1,-1]
 
-        n = len(arr)
-        length = n - third
-        if first + length <= second and second + length <= third:
-            i = 0
-            while third + i < n:
-                if arr[first + i] != arr[second + i] or arr[first + i] != arr[third + i]:
-                    return [-1, -1]
-                i += 1
-            return [first + length - 1, second + length]
-        return [-1, -1]        
+
+        
         
 
 # @lc code=end
