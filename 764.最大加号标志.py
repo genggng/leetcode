@@ -4,6 +4,35 @@
 # [764] 最大加号标志
 #
 from typing import List
+def get_dp(dp1,dp2,mines,n):
+    for i in range(n):
+        # left
+        count = 0  #统计在第i行，(i,j)左边最长连续1个数
+        for j in range(n):
+            count = 0 if (i,j) in mines else count+1
+            dp1[i][j] = min(dp1[i][j],count)
+            dp2[i][j] = min(dp2[i][j],count)
+        
+        # right
+        count = 0  #统计在第i行，(i,j)右边最长连续1个数
+        for j in range(n-1,-1,-1):
+            count = 0 if (i,j) in mines else count+1
+            dp1[i][j] = min(dp1[i][j],count)
+            dp2[i][j] = min(dp2[i][j],count)
+    for j in range(n):
+        # up
+        count = 0  #统计在第j列，(i,j)上边最长连续1个数
+        for i in range(n):
+            count = 0 if (i,j) in mines else count+1
+            dp1[i][j] = min(dp1[i][j],count)
+            dp2[i][j] = min(dp2[i][j],count)
+        
+        # down
+        count = 0  #统计在第j列，(i,j)下边最长连续1个数
+        for i in range(n-1,-1,-1):
+            count = 0 if (i,j) in mines else count+1
+            dp1[i][j] = min(dp1[i][j],count)
+            dp2[i][j] = min(dp2[i][j],count)
 # @lc code=start
 class Solution:
     def orderOfLargestPlusSign(self, n: int, mines: List[List[int]]) -> int:
@@ -15,34 +44,11 @@ class Solution:
         # 暴力法，计算每个以grid[i][j]为中心的阶数。
         mines = set(map(tuple,mines))
 
-        dp = [[n]*n for _ in range(n)]
-        # dp = [[n]*n]*n
+        dp1 = [[n]*n for _ in range(n)]
+        dp2 = [[n]*n]*n  #绝对不能这样写！因为列表是可变对象，把列表*n相当于把地址复制n份，所有的行都会和第一行结果相同。
         # flag = bool(dp == dp1)
-        for i in range(n):
-            # left
-            count = 0  #统计在第i行，(i,j)左边最长连续1个数
-            for j in range(n):
-                count = 0 if (i,j) in mines else count+1
-                dp[i][j] = min(dp[i][j],count)
-            
-            # right
-            count = 0  #统计在第i行，(i,j)右边最长连续1个数
-            for j in range(n-1,-1,-1):
-                count = 0 if (i,j) in mines else count+1
-                dp[i][j] = min(dp[i][j],count)
-        for j in range(n):
-            # up
-            count = 0  #统计在第j列，(i,j)上边最长连续1个数
-            for i in range(n):
-                count = 0 if (i,j) in mines else count+1
-                dp[i][j] = min(dp[i][j],count)
-            
-            # down
-            count = 0  #统计在第j列，(i,j)下边最长连续1个数
-            for i in range(n-1,-1,-1):
-                count = 0 if (i,j) in mines else count+1
-                dp[i][j] = min(dp[i][j],count)
-        return max(map(max,dp))    
+        get_dp(dp1,dp2,mines,n)
+        return max(map(max,dp1))    
         # dp = [[n] * n for _ in range(n)]
         # banned = set(map(tuple, mines))
         # for i in range(n):
