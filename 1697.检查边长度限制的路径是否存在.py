@@ -1,0 +1,31 @@
+#
+# @lc app=leetcode.cn id=1697 lang=python3
+#
+# [1697] 检查边长度限制的路径是否存在
+#
+
+# @lc code=start
+class Solution:
+    def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
+        edgeList.sort(key=lambda e: e[2])
+
+        # 并查集模板
+        fa = list(range(n))
+        def find(x: int) -> int:
+            if fa[x] != x:
+                fa[x] = find(fa[x])
+            return fa[x]
+        def merge(from_: int, to: int) -> None:
+            fa[find(from_)] = find(to)
+
+        ans, k = [False] * len(queries), 0
+        # 查询的下标按照 limit 从小到大排序，方便离线
+        for i, (p, q, limit) in sorted(enumerate(queries), key=lambda p: p[1][2]):
+            while k < len(edgeList) and edgeList[k][2] < limit:
+                merge(edgeList[k][0], edgeList[k][1])
+                k += 1
+            ans[i] = find(p) == find(q)
+        return ans
+            
+# @lc code=end
+
