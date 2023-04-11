@@ -20,6 +20,9 @@ class Solution:
         while max>0 and max<n:
             max = (max << 2) +1
         # res是刚好大于n的最大数，还要计算和n的差值
+        # 对于max来说，想要其减小，要么将奇数位由1变成0，要么将偶数位由0变成1
+        # 这其实就是对如果需要降低max的某位，就行翻转其
+        # 刚好对应异或操作。
         # 异或就是计算差值
         # print(max)
         return bin(max^max-n)[2:]
