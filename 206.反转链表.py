@@ -66,15 +66,16 @@ class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head:
             return head
-        pre = ListNode(0,head)
-        p = head
-        while p:
-            nex = p.next
-            p.next = pre
-            pre = p
-            p = nex
-        head.next = None
-        return pre
+        def recur(node):
+            if not node.next:
+                return node,node
+            head,tail = recur(node.next)
+            tail.next = node
+            return head,node
+        
+        head,tail = recur(head)
+        tail.next = None
+        return head
 
     
 # @lc code=end
