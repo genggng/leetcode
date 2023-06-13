@@ -58,21 +58,18 @@ class ListNode:
 
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        dump1 = ListNode(0)
-        p = dump1
-        r1,r2 = list1,list2
-        while r1 and r2:
-            if r1.val <= r2.val:
-                p.next = r1
-                r1 = r1.next
-            else:
-                p.next = r2
-                r2 = r2.next
-            p = p.next
-        if r1:
-            p.next = r1
-        if r2:
-            p.next = r2
-        return dump1.next
+        if not list1:
+            return list2
+        if not list2:
+            return list1
+
+        if list1.val<list2.val:
+            node = self.mergeTwoLists(list1.next,list2)
+            head = list1
+        else:
+            node = self.mergeTwoLists(list1,list2.next)
+            head = list2
+        head.next = node
+        return head
 # @lc code=end
 

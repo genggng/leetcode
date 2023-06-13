@@ -50,57 +50,9 @@ n == nums.length
 """
 class Solution:
     def getSubarrayBeauty(self, nums: List[int], k: int, x: int) -> List[int]:
-        res = []
-        def quicksort(num ,low ,high):  #快速排序
-            if low< high:
-                location = partition(num, low, high)
-                quicksort(num, low, location - 1)
-                quicksort(num, location + 1, high)
-        
-        def partition(num, low, high):
-            pivot = num[low]
-            while (low < high):
-                while (low < high and num[high] > pivot):
-                    high -= 1
-                while (low < high and num[low] < pivot):
-                    low += 1
-                temp = num[low]
-                num[low] = num[high]
-                num[high] = temp
-            num[low] = pivot
-            return low
-        
-        def findkth(num,low,high,k):   #找到数组里第k个数
-                index=partition(num,low,high)
-                if index==k:return num[index]
-                if index<k:
-                    return findkth(num,index+1,high,k)
-                else:
-                    return findkth(num,low,index-1,k)
-        tmp = []
-        for num in nums[0:k]:
-            if num<0:
-                tmp.append(num)
 
-        for l in range(len(nums)-k+1):
-            
-            ready = True
-            if nums[l]<0:
-                tmp = []
-                for num in nums[l:k+l]:
-                    if num<0:
-                        tmp.append(num)
-                ready = False
-            if x>len(tmp):
-                val = 0
-            else:
-                if len(tmp)<1000:
-                    if not ready:
-                        tmp.sort()
-                    val = tmp[x-1]
-                else:
-                    val = findkth(tmp,0,len(tmp)-1,x-1)
-            res.append(val)
+
+
         return res
     
 nums = [1,-1,-3,-2,3]
